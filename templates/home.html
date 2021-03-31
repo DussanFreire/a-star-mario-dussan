@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block center %}
+<h3>MENU</h3>
+<h3>Create new board 👾:</h3>
+<form action="{{ url_for('load_default_map')}}" method="post">
+    <button type="submit" style="background-color: green">Load default map</button>
+</form>
+
+<h3>Create new board 🆕:</h3>
+<form action="{{ url_for('board_created')}}" method="post">
+    <label for="rows">Number of rows:</label>
+    <input type="text" id="rows" name="_rows" placeholder="rows" size=3>
+    <br>
+    <br>
+    <label for="cols">Number of cols:</label>
+    <input type="text" id="cols" name="_cols" placeholder="cols" size=3>
+    <br>
+    <br>
+    <button type="submit" style="background-color: green">Ok</button>
+</form>
+
+{% endblock %}

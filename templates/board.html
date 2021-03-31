@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block center %}
+
+
+    <form action="{{ url_for('add_pipeline')}}" method="post">
+        <label for="pipe_row">Add Pipeline 🏁:</label>
+        <input type="text" id="pipe_row" name="_pipe_row" placeholder="Row" size=2>
+        <input type="text" id="pipe_col" name="_pipe_col" placeholder="Col" size=2>
+        <button type="submit" style="background-color: green">Ok</button>
+    </form>
+
+    <form action="{{ url_for('add_wall')}}" method="post">
+        <label for="pipe_row">Add Wall 🟥:</label>
+        <input type="text" id="wall_row" name="_wall_row" placeholder="Row" size=2>
+        <input type="text" id="wall_col" name="_wall_col" placeholder="Col" size=2>
+        <button type="submit" style="background-color: green">Ok</button>
+    </form>
+
+    <form action="{{ url_for('add_mario')}}" method="post">
+        <label for="pipe_row">Place Mario 👨: </label>
+        <input type="text" id="mario_row" name="_mario_row" placeholder="Row" size=2>
+        <input type="text" id="mario_col" name="_mario_col" placeholder="Col" size=2>
+        <button type="submit" style="background-color: green">Ok</button>
+    </form>
+    <h3></h3>
+
+    {{ Board_sol|safe }}
+
+    <label for="pipe_row">Total states registered: {{ Total_states }}</label>
+    <h3></h3>
+
+    <form action="{{ url_for('index')}}" method="get">
+        <button type="submit" style="background-color: red; color: white">Back to Menu</button>
+    </form>
+{% endblock %}
+
