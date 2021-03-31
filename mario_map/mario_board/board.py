@@ -4,26 +4,28 @@ from mario_map.board_space.pipeline import Pipeline
 from mario_map.mario_board.board_distance_finder import BoardDistanceFinder
 from mario_map.mario_board.position import Position
 from mario_map.mario_board.dimensions import Dimensions
-from mario_map.board_space.mario import Mario
 
 
 class Board:
     def __init__(self):
         self.boar_dimensions = None
         self.board = None
-        self.mario = None
+        self.mario = FreeSpace()
         self.total_states = 0
 
-    def init_board(self, num_rows, num_cols):
-        matrix = []
-        for row in range(0, num_rows):
-            matrix.append([])
-            for col in range(0, num_cols):
-                matrix[row].append(FreeSpace())
+    def init_mario_world(self, num_rows, num_cols):
         self.boar_dimensions = Dimensions(num_rows, num_cols)
-        self.mario = None
-        self.board = matrix
+        self.board = self.init_board()
         self.total_states = 0
+        self._add_mario(Position(0, 0))
+
+    def init_board(self):
+        matrix = []
+        for row in range(0, self.boar_dimensions.num_rows):
+            matrix.append([])
+            for col in range(0, self.boar_dimensions.num_cols):
+                matrix[row].append(FreeSpace())
+        return matrix
 
     def _add_pipelines(self, *pipeline_positions):
         for position in pipeline_positions:
@@ -34,14 +36,14 @@ class Board:
             self.board[position.row][position.col] = Wall()
 
     def _add_mario(self, position):
-        if self.mario is not None:
-            self.board[self.mario.position.row][self.mario.position.col] = FreeSpace()
-        self.mario = Mario()
-        self.mario.position = position
-        self.board[position.row][position.col] = self.mario
+        self.mario.take_out_mario()
+        new_mario = FreeSpace()
+        new_mario.place_mario(position)
+        self.board[position.row][position.col] = new_mario
+        self.mario = new_mario
 
     def load_default_board(self):
-        self.init_board(4, 4)
+        self.init_mario_world(4, 4)
         self._add_pipelines(Position(0, 3), Position(3, 0))
         self._add_walls(Position(0, 1), Position(2, 1), Position(3, 1), Position(1, 3), Position(2, 3))
         self._add_mario(Position(0, 0))
@@ -68,9 +70,7 @@ class Board:
             tabla += "<td width=20 border=1 style='border-color: black;color: white; background-color: " \
                      "black;text-align:center;'>" + str(row + 1) + "</td>"
             for col in range(0, self.boar_dimensions.num_cols):
-                value = self.board[row][col].distance if isinstance(self.board[row][col], FreeSpace) else \
-                    self.board[row][
-                        col].value
+                value = self.board[row][col].distance if (isinstance(self.board[row][col], FreeSpace) and not self.board[row][col].mario_is_here) else self.board[row][col].value
                 tabla += "<td width=20 border=1 style='border-color: black;color: black; background-color: " + \
                          self.board[row][col].color + ";text-align:center;'>" + str(value) + "</td>"
             tabla += "</tr>"
@@ -93,3 +93,7 @@ class Board:
             self._add_walls(Position(row_pos - 1, col_pos - 1))
         self._mark_distances()
         self._find_shortest_path()
+
+# a = Board()
+# a.init_mario_world(4,4)
+# a.get_html_board()

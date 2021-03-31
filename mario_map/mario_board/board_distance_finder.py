@@ -3,7 +3,6 @@ from mario_map.board_space.pipeline import Pipeline
 from mario_map.board_space.free_space import FreeSpace
 from mario_map.mario_agent.settings import Settings
 from mario_map.mario_agent.agent import Agent
-from mario_map.board_space.mario import Mario
 import queue
 
 
@@ -18,7 +17,7 @@ class BoardDistanceFinder:
             if not BoardValidations.is_a_valid_space(successor_position, boar_dimensions):
                 continue
             successor = board[successor_position.row][successor_position.col]
-            if isinstance(successor, Mario):
+            if isinstance(successor, FreeSpace) and successor.mario_is_here:
                 continue
             if isinstance(successor, Pipeline) or (
                     isinstance(successor, FreeSpace) and state.distance == successor.distance + 1):

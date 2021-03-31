@@ -16,7 +16,7 @@ def board_created():
         try:
             rows = int(request.form.get("_rows"))
             cols = int(request.form.get("_cols"))
-            board.init_board(rows, cols)
+            board.init_mario_world(rows, cols)
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
