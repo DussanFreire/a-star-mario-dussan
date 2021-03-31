@@ -1,7 +1,5 @@
-from flask import request
+from flask import Flask, render_template, request
 from mario_map.mario_board.board import Board
-from flask import Flask, render_template
-
 
 app = Flask(__name__)
 
