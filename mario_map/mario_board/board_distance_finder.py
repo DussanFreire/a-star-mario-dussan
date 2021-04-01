@@ -21,7 +21,7 @@ class BoardDistanceFinder:
                 continue
             if isinstance(successor, Pipeline) or (
                     isinstance(successor, FreeSpace) and state.distance == successor.distance + 1):
-                successor.color = "#2ECC71"
+                successor.color = BoardDistanceFinder.settings.COLOR_GREEN
                 return successor_position
         return None
 
@@ -33,7 +33,7 @@ class BoardDistanceFinder:
                 continue
             successor = board[successor_position.row][successor_position.col]
             if isinstance(successor, Pipeline):
-                successor.color = "#2ECC71"
+                successor.color = BoardDistanceFinder.settings.COLOR_GREEN
                 return successor_position
             if isinstance(successor, FreeSpace) and successor.distance != 0:
                 if best_option is None:
@@ -42,7 +42,7 @@ class BoardDistanceFinder:
                     best_option = [successor_position, successor]
         if best_option is None:
             return None
-        best_option[1].color = "#2ECC71"
+        best_option[1].color = BoardDistanceFinder.settings.COLOR_GREEN
         return best_option[0]
 
     @staticmethod
@@ -53,9 +53,9 @@ class BoardDistanceFinder:
         posible_steps = BoardDistanceFinder.agent.transition_function(mario_position, actions)
         initial_step_position = BoardDistanceFinder.select_initial_step(board, boar_dimensions, posible_steps)
         if initial_step_position is None:
-            board[mario_position.row][mario_position.col].color = "red"
+            board[mario_position.row][mario_position.col].color = BoardDistanceFinder.settings.COLOR_RED
             return shortest_path
-        board[mario_position.row][mario_position.col].color = "#2ECC71"
+        board[mario_position.row][mario_position.col].color = BoardDistanceFinder.settings.COLOR_GREEN
         shortest_path.append(initial_step_position)
         if isinstance(board[initial_step_position.row][initial_step_position.col], Pipeline):
             return shortest_path
@@ -94,7 +94,7 @@ class BoardDistanceFinder:
     def clean_board(board):
         for row in board:
             for element in row:
-                element.color = "white"
+                element.color = BoardDistanceFinder.settings.COLOR_WHITE
                 if isinstance(element, FreeSpace):
                     element.distance = 0
 
@@ -135,24 +135,25 @@ class BoardDistanceFinder:
         return len(close)
 
     @staticmethod
-    def _mark_distance_in_the_board_dfs(board, pipelines_positions, boar_dimensions):
-        open = []
-        close = []
+    def a_star(board, marios_position, goal_state, boar_dimensions):
+        open = queue.SimpleQueue()
+        closed = []
+        open.put(marios_position, 0)
+        while open.qsize() != 0:
+            state_position, f = open.get()
 
-        for pipeline_position in pipelines_positions:
-            open.append(pipeline_position)
-        while len(open) != 0:
-            state_position = open.pop()
-            # mark it as visited
+            closed.append(state_position)
+            if state_position == goal_state:
+                return True
+
             actions = [BoardDistanceFinder.settings.UP, BoardDistanceFinder.settings.DOWN,
                        BoardDistanceFinder.settings.LEFT, BoardDistanceFinder.settings.RIGHT]
             successors_positions = BoardDistanceFinder.agent.transition_function(state_position, actions)
+            # aqui se deberia poner choose successor
             successors_positions = BoardDistanceFinder._discard_successors(board, boar_dimensions, successors_positions,
                                                                            state_position)
             BoardDistanceFinder._mark_successors_distance(board, successors_positions, state_position)
-
-            close.append(state_position)
-
+            closed.append(state_position)
             for successor_position in successors_positions:
-                open.append(successor_position)
-        return len(close)
+                open.put(successor_position)
+        return False

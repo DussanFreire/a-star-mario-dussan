@@ -4,13 +4,8 @@ from mario_map.mario_board.board import Board
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
-    return render_template('home.html')
-
-
-@app.route('/board', methods=["GET", "POST"])
-def board_created():
     if request.method == "POST":
 
         try:
@@ -19,8 +14,8 @@ def board_created():
             board.init_mario_world(rows, cols)
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            render_template('home.html')
+    return render_template('home.html')
 
 
 @app.route('/pipeAdded', methods=["GET", "POST"])
