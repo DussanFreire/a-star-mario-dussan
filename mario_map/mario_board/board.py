@@ -1,9 +1,10 @@
 from mario_map.board_space.wall import Wall
 from mario_map.board_space.free_space import FreeSpace
 from mario_map.board_space.pipeline import Pipeline
-from mario_map.mario_board.board_distance_finder import BoardDistanceFinder
+from mario_map.mario_board.pipeline_finder import PipelineFinder
 from mario_map.mario_board.position import Position
 from mario_map.mario_board.dimensions import Dimensions
+from mario_map.mario_board.html_generator import HtmlGenerator
 
 
 class Board:
@@ -42,60 +43,45 @@ class Board:
         self.board[position.row][position.col] = new_mario
         self.mario = new_mario
 
-    def load_default_board(self):
-        self.init_mario_world(4, 4)
-        self._add_pipelines(Position(0, 3), Position(3, 0))
-        self._add_walls(Position(0, 1), Position(2, 1), Position(3, 1), Position(1, 3), Position(2, 3))
-        self._add_mario(Position(0, 0))
-        self._mark_distances()
-        self._find_shortest_path()
+    def load_easy_board(self):
+        self.init_mario_world(6, 6)
+        self._add_pipelines(Position(2, 5))
+        self._add_walls(Position(0, 1),
+                        Position(2, 1),
+                        Position(3, 1),
+                        Position(1, 3),
+                        Position(2, 3))
+        self._add_mario(Position(2, 3))
+        # self._find_pipeline()
 
-    def _mark_distances(self):
-        self.total_states = BoardDistanceFinder.mark_distances(self.board, self.boar_dimensions)
-
-    def _find_shortest_path(self):
+    def _find_pipeline(self):
         if self.mario is not None:
-            return BoardDistanceFinder.find_shortest_path(self.board, self.mario.position, self.boar_dimensions)
+            return PipelineFinder.a_star(self.board, self.mario)
         return None
 
     def get_html_board(self):
-        tabla = "<head> <table style='background-color:black;'>"
-        tabla += "<tr><td></td>"
-        for col in range(0, self.boar_dimensions.num_cols):
-            tabla += "<td width=20 border=1 style=' border-color: black;color: white; background-color: " \
-                     "black;text-align:center;'>" + str(col + 1) + "</td>"
-        tabla += "</tr>"
-        for row in range(0, self.boar_dimensions.num_rows):
-            tabla += "<tr>"
-            tabla += "<td width=20 border=1 style='border-color: black;color: white; background-color: " \
-                     "black;text-align:center;'>" + str(row + 1) + "</td>"
-            for col in range(0, self.boar_dimensions.num_cols):
-                value = self.board[row][col].distance if (isinstance(self.board[row][col], FreeSpace) and not self.board[row][col].mario_is_here) else self.board[row][col].value
-                tabla += "<td width=20 border=1 style='border-color: black;color: black; background-color: " + \
-                         self.board[row][col].color + ";text-align:center;'>" + str(value) + "</td>"
-            tabla += "</tr>"
-        tabla += "</table> </head>"
-        return tabla
+        return HtmlGenerator.create_html_board(self.board, self.boar_dimensions)
 
     def _show_board(self):
         for line in self.board:
             for elem in line:
-                print(elem.distance if isinstance(elem, FreeSpace) else elem.value, end="\t")
+                print(elem.display_value, end="\t")
             print()
         print()
 
-    def add_element_and_reload_distances(self, name_element, row_pos, col_pos):
+    def add_element_and_reload(self, name_element, row_pos, col_pos):
         if name_element == "mario":
             self._add_mario(Position(row_pos - 1, col_pos - 1))
         if name_element == "pipeline":
             self._add_pipelines(Position(row_pos - 1, col_pos - 1))
         if name_element == "wall":
             self._add_walls(Position(row_pos - 1, col_pos - 1))
-        self._mark_distances()
-        self._find_shortest_path()
+        # self._find_pipeline()
 
     def get_board_element(self, position):
         return self.board[position.row][position.col]
+
+
 # a = Board()
 # a.init_mario_world(4,4)
-# a.get_html_board()
+# print(a.get_html_board())

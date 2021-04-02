@@ -24,7 +24,7 @@ def add_pipeline():
         try:
             pipe_row = int(request.form.get("_pipe_row"))
             pipe_col = int(request.form.get("_pipe_col"))
-            board.add_element_and_reload_distances("pipeline", pipe_row, pipe_col)
+            board.add_element_and_reload("pipeline", pipe_row, pipe_col)
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
@@ -37,7 +37,7 @@ def add_wall():
         try:
             wall_row = int(request.form.get("_wall_row"))
             wall_col = int(request.form.get("_wall_col"))
-            board.add_element_and_reload_distances("wall", wall_row, wall_col)
+            board.add_element_and_reload("wall", wall_row, wall_col)
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
@@ -49,17 +49,17 @@ def add_mario():
         try:
             mario_row = int(request.form.get("_mario_row"))
             mario_col = int(request.form.get("_mario_col"))
-            board.add_element_and_reload_distances("mario", mario_row, mario_col)
+            board.add_element_and_reload("mario", mario_row, mario_col)
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
     return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
 
 
-@app.route('/defaultMap', methods=["GET", "POST"])
-def load_default_map():
+@app.route('/easyMap', methods=["GET", "POST"])
+def load_easy_map():
     if request.method == "POST":
-        board.load_default_board()
+        board.load_easy_board()
         return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
     return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
 

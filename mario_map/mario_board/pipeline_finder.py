@@ -7,7 +7,7 @@ from mario_map.mario_agent.agent import Agent
 import queue
 
 
-class BoardDistanceFinder:
+class PipelineFinder:
     settings = Settings()
     agent = Agent(settings)
 
@@ -15,7 +15,7 @@ class BoardDistanceFinder:
     def show_board(board):
         for line in board:
             for elem in line:
-                print(elem.distance if isinstance(elem, FreeSpace) else elem.value, end="\t")
+                print(elem.display_value, end="\t")
             print()
         print()
 
@@ -23,38 +23,44 @@ class BoardDistanceFinder:
     def clean_board(board):
         for row in board:
             for element in row:
-                element.color = BoardDistanceFinder.settings.COLOR_WHITE
+                element.color = PipelineFinder.settings.COLOR_WHITE
                 if isinstance(element, FreeSpace):
                     element.distance = 0
 
     @staticmethod
-    def a_star(board, marios_position):
+    def a_star(board, mario):
         open_states = queue.SimpleQueue()
         closed_states = []
-        root = Successor(marios_position, None, 0, 0, 0)
+        root = Successor(mario, mario.position, None, 0, 0, 0)
         open_states.put(root)
         while open_states.qsize() != 0:
             state = open_states.get()
+            PipelineFinder.mark_element(state)
             closed_states.append(state)
-            if isinstance(state, Pipeline):  # goal_state(state):
+            if isinstance(state.element, Pipeline):  # goal_state(state):
                 return True
-            actions = [BoardDistanceFinder.settings.UP, BoardDistanceFinder.settings.DOWN,
-                       BoardDistanceFinder.settings.LEFT, BoardDistanceFinder.settings.RIGHT]
-            # se agregara la opcion de ver a lo lejos
-            successors = BoardDistanceFinder.agent.transition_function(state, actions)
+            actions = [PipelineFinder.settings.UP, PipelineFinder.settings.DOWN,
+                       PipelineFinder.settings.LEFT, PipelineFinder.settings.RIGHT]
+            # se agregara la option de ver a lo lejos
+            successors = PipelineFinder.agent.transition_function(state, actions)
             for successor in successors:
                 if successor in closed_states:
                     continue
                 if not BoardValidations.is_a_valid_space(successor.position, board.boar_dimensions):
                     continue
-                successor.h = BoardDistanceFinder.rect_line_h(successor)
-                successor.g = state.g + 1  # cost(state,successor)
-                successor.f = successor.g + successor.h
+                successor.set_costs(PipelineFinder.rect_line_h(successor), state.g + 1)
                 if successor in open_states:
                     if successor.g >= state.g in open_states:
                         continue
                 open_states.put(successor)
         return False
+
+    @staticmethod
+    def mark_element(state):
+        if not state.element.mario_is_here():
+            state.element.space_visited(PipelineFinder.settings.COLOR_GREEN, state.father.distance)
+        else:
+            state.element.space_visited(PipelineFinder.settings.COLOR_GREEN, - 1)
 
     @staticmethod
     def rect_line_h(successor):

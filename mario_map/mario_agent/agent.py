@@ -1,5 +1,10 @@
 from mario_map.mario_board.position import Position
-from successor import Successor
+from mario_map.mario_agent.successor import Successor
+
+
+def _create_successor_with_pos(position, father):
+    successor = Successor(position, father)
+    return successor
 
 
 class Agent:
@@ -18,9 +23,5 @@ class Agent:
                 pos = Position(father.position.row, father.position.col - 1)
             if action == self.settings.RIGHT:
                 pos = Position(father.position.row, father.position.col + 1)
-            successors.append(self._create_successor_with_pos(pos, father))
+            successors.append(_create_successor_with_pos(pos, father))
         return successors
-
-    def _create_successor_with_pos(self, position, father):
-        successor = Successor(position, father)
-        return successor
