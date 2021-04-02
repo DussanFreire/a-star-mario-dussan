@@ -1,20 +1,26 @@
 from mario_map.mario_board.position import Position
+from successor import Successor
 
 
 class Agent:
     def __init__(self, settings):
         self.settings = settings
 
-    def transition_function(self, position, actions):
+    def transition_function(self, father, actions):
         successors = []
+        pos = None
         for action in actions:
             if action == self.settings.UP:
-                successors.append(Position(position.row - 1, position.col))
+                pos = Position(father.position.row - 1, father.position.col)
             if action == self.settings.DOWN:
-                successors.append(Position(position.row + 1, position.col))
+                pos = Position(father.position.row + 1, father.position.col)
             if action == self.settings.LEFT:
-                successors.append(Position(position.row, position.col - 1))
+                pos = Position(father.position.row, father.position.col - 1)
             if action == self.settings.RIGHT:
-                successors.append(Position(position.row, position.col + 1))
-
+                pos = Position(father.position.row, father.position.col + 1)
+            successors.append(self._create_successor_with_pos(pos, father))
         return successors
+
+    def _create_successor_with_pos(self, position, father):
+        successor = Successor(position, father)
+        return successor

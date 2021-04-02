@@ -16,24 +16,12 @@ class BoardValidations:
         return state.father != successor
 
     @staticmethod
-    def _is_a_valid_distance_to_change(state, successor):
-        return successor.distance == 0  # or successor.distance > state.distance + 1
-
-    @staticmethod
-    def is_a_valid_successor(successor, state):
-        if isinstance(state, Pipeline):
-            return True
-        return BoardValidations._is_a_valid_child(state, successor) and BoardValidations._is_a_valid_distance_to_change(
-            state, successor)
-
-    @staticmethod
     def is_a_valid_space(position, boar_dimensions):
         return BoardValidations._is_a_valid_row(position.row, boar_dimensions) and BoardValidations._is_a_valid_col(
             position.col, boar_dimensions)
 
     @staticmethod
-    def is_a_successor(board, state_position, successor_position, boar_dimensions):
-        state = board[state_position.row][state_position.col]
-        return BoardValidations.is_a_valid_space(successor_position, boar_dimensions) and \
-               isinstance(board[successor_position.row][successor_position.col], FreeSpace) and \
-               BoardValidations.is_a_valid_successor(board[successor_position.row][successor_position.col], state)
+    def is_a_successor(board, state, successor):
+        if isinstance(board.get_board_element(state.position), Pipeline):
+            return True
+        return BoardValidations.is_a_valid_space(successor.position, board.boar_dimensions) and isinstance(board.get_board_element(successor.position), FreeSpace) and BoardValidations._is_a_valid_child(state, successor)

@@ -94,6 +94,8 @@ class Board:
         self._mark_distances()
         self._find_shortest_path()
 
+    def get_board_element(self, position):
+        return self.board[position.row][position.col]
 # a = Board()
 # a.init_mario_world(4,4)
 # a.get_html_board()
