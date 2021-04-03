@@ -28,12 +28,12 @@ class PipelineFinder:
                     element.distance = 0
 
     @staticmethod
-    def a_star(board, boar_dimensions, mario):
+    def a_star(board):
         open_states = queue.PriorityQueue()
         closed_states = []
-        mario.set_costs(0, 0)
+        board.mario.set_costs(0, 0)
         number_of_state = 1
-        open_states.put((0, number_of_state, mario))
+        open_states.put((0, number_of_state, board.mario))
         while open_states.qsize() != 0:
             f, _, state = open_states.get()
             closed_states.append(state)
@@ -47,9 +47,9 @@ class PipelineFinder:
             for successor_pos in successors_pos:
                 if successor_pos in closed_states:
                     continue
-                if not BoardValidations.is_in_the_board(successor_pos, boar_dimensions):
+                if not BoardValidations.is_in_the_board(successor_pos, board.dimensions):
                     continue
-                successor = board[successor_pos.row][successor_pos.col]
+                successor = board.get_board_element(successor_pos)
                 successor.position = successor_pos
                 if isinstance(successor, Wall):
                     continue

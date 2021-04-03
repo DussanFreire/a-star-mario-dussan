@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from mario_map.mario_board.board import Board
+from mario_map.mario_board.board_manager import BoardManager
 
 app = Flask(__name__)
 
@@ -9,10 +9,12 @@ def index():
     if request.method == "POST":
 
         try:
+            if request is None:
+                return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
             rows = int(request.form.get("_rows"))
             cols = int(request.form.get("_cols"))
-            board.init_mario_world(rows, cols)
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            board_manager.create_new_board(rows, cols)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
         except:
             render_template('home.html')
     return render_template('home.html')
@@ -22,48 +24,55 @@ def index():
 def add_pipeline():
     if request.method == "POST":
         try:
+            if request is None:
+                return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
             pipe_row = int(request.form.get("_pipe_row"))
             pipe_col = int(request.form.get("_pipe_col"))
-            board.add_element_and_reload("pipeline", pipe_row, pipe_col)
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            board_manager.add_element_and_reload("pipeline", pipe_row, pipe_col)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
         except:
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
 
 
 @app.route('/wallAdded', methods=["GET", "POST"])
 def add_wall():
     if request.method == "POST":
         try:
+            if request is None:
+                return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
             wall_row = int(request.form.get("_wall_row"))
             wall_col = int(request.form.get("_wall_col"))
-            board.add_element_and_reload("wall", wall_row, wall_col)
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            board_manager.add_element_and_reload("wall", wall_row, wall_col)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
         except:
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
+
 
 @app.route('/marioAdded', methods=["GET", "POST"])
 def add_mario():
     if request.method == "POST":
         try:
+            if request is None:
+                return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
             mario_row = int(request.form.get("_mario_row"))
             mario_col = int(request.form.get("_mario_col"))
-            board.add_element_and_reload("mario", mario_row, mario_col)
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            board_manager.add_element_and_reload("mario", mario_row, mario_col)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
         except:
-            return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+            return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
 
 
 @app.route('/easyMap', methods=["GET", "POST"])
 def load_easy_map():
     if request.method == "POST":
-        board.load_easy_board()
-        return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
+        board_manager.load_easy_board()
+        return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(), Total_states=board_manager.total_states)
 
 
 if __name__ == "__main__":
-    board = Board()
+    board_manager = BoardManager()
     app.run(debug=True)
