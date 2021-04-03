@@ -28,6 +28,13 @@ class Board:
                 matrix[row].append(FreeSpace())
         return matrix
 
+    def reload_board(self):
+        for row in range(0, self.boar_dimensions.num_rows):
+            for col in range(0, self.boar_dimensions.num_cols):
+                if isinstance(self.board[row][col], Pipeline) or isinstance(self.board[row][col], FreeSpace):
+                    self.board[row][col].reset_space()
+        self.total_states = 0
+
     def _add_pipelines(self, *pipeline_positions):
         for position in pipeline_positions:
             self.board[position.row][position.col] = Pipeline(position.row, position.col)
@@ -44,20 +51,29 @@ class Board:
         self.mario = new_mario
 
     def load_easy_board(self):
-        self.init_mario_world(6, 6)
-        self._add_pipelines(Position(2, 5))
-        self._add_walls(Position(0, 1),
-                        Position(2, 1),
-                        Position(3, 1),
+        self.init_mario_world(10, 10)
+        self._add_pipelines(Position(2, 9))
+        self._add_walls(Position(3, 1),
+                        Position(4, 1),
+                        Position(5, 1),
+                        Position(6, 1),
+                        Position(7, 1),
+                        Position(8, 1),
+                        Position(0, 3),
                         Position(1, 3),
-                        Position(2, 3))
-        self._add_mario(Position(2, 3))
-        # self._find_pipeline()
+                        Position(2, 3),
+                        Position(3, 3),
+                        Position(4, 3),
+                        Position(5, 3),
+                        Position(6, 3),
+                        Position(7, 3),
+                        Position(8, 3))
+        self._add_mario(Position(6, 0))
+        return self._find_pipeline()
 
     def _find_pipeline(self):
         if self.mario is not None:
-            return PipelineFinder.a_star(self.board, self.mario)
-        return None
+            _, self.total_states = PipelineFinder.a_star(self.board, self.boar_dimensions, self.mario)
 
     def get_html_board(self):
         return HtmlGenerator.create_html_board(self.board, self.boar_dimensions)
@@ -76,12 +92,13 @@ class Board:
             self._add_pipelines(Position(row_pos - 1, col_pos - 1))
         if name_element == "wall":
             self._add_walls(Position(row_pos - 1, col_pos - 1))
-        # self._find_pipeline()
+        self.reload_board()
+        self._find_pipeline()
 
     def get_board_element(self, position):
         return self.board[position.row][position.col]
 
 
+#
 # a = Board()
-# a.init_mario_world(4,4)
-# print(a.get_html_board())
+# print(a.load_easy_board())

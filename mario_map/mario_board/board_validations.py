@@ -12,16 +12,24 @@ class BoardValidations:
         return 0 <= col < boar_dimensions.num_cols
 
     @staticmethod
-    def _is_a_valid_child(state, successor):
+    def is_a_valid_child(state, successor):
         return state.father != successor
 
     @staticmethod
-    def is_a_valid_space(position, boar_dimensions):
+    def is_a_higher_g_cost(state, successor):
+        return successor.g >= state.g
+
+    @staticmethod
+    def is_in_the_board(position, boar_dimensions):
         return BoardValidations._is_a_valid_row(position.row, boar_dimensions) and BoardValidations._is_a_valid_col(
             position.col, boar_dimensions)
 
     @staticmethod
-    def is_a_successor(board, state, successor):
-        if isinstance(board.get_board_element(state.position), Pipeline):
+    def is_a_successor(board, state, successor_pos, boar_dimensions):
+        if not BoardValidations.is_in_the_board(successor_pos.position, boar_dimensions):
+            return False
+        if isinstance(board[successor_pos.position.row][successor_pos.position.col], Pipeline):
             return True
-        return BoardValidations.is_a_valid_space(successor.position, board.boar_dimensions) and isinstance(board.get_board_element(successor.position), FreeSpace) and BoardValidations._is_a_valid_child(state, successor)
+        if isinstance(board[successor_pos.position.row][successor_pos.position.col], FreeSpace) and BoardValidations.is_a_valid_child(state, board[successor_pos.position.row][successor_pos.position.col]):
+            return True
+        return False

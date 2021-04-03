@@ -41,7 +41,7 @@ def add_wall():
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
         except:
             return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
-
+    return render_template('board.html', Board_sol=board.get_html_board(), Total_states=board.total_states)
 
 @app.route('/marioAdded', methods=["GET", "POST"])
 def add_mario():

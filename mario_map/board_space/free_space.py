@@ -1,11 +1,14 @@
 class FreeSpace:
-    def __init__(self):
+    def __init__(self, father=None, g=None, h=None, f=None):
         self.mario_is_here = False
         self.display_value = "_"
         self.color = "white"
-        self.father = None
+        self.father = father
         self.position = None
         self.visited = False
+        self.h = h
+        self.g = g
+        self.f = f
 
     def place_mario(self, position):
         self.display_value = "👨"
@@ -17,7 +20,25 @@ class FreeSpace:
         self.mario_is_here = False
         self.position = None
 
-    def space_visited(self, color, father_distance):
+    def space_visited(self, color, f="👨"):
         self.visited = True
         self.color = color
-        self.display_value = father_distance + 1
+        self.display_value = f
+
+    def set_costs(self, h, g):
+        self.h = h
+        self.g = g
+        self.f = g + h
+
+    def reset_space(self):
+        self.display_value = "_"
+        self.color = "white"
+        self.father = None
+        self.visited = False
+        self.h = None
+        self.g = None
+        self.f = None
+        if self.mario_is_here:
+            self.place_mario(self.position)
+        else:
+            self.position = None
