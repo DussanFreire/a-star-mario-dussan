@@ -20,10 +20,11 @@ class FreeSpace:
         self.mario_is_here = False
         self.position = None
 
-    def space_visited(self, color, f="👨"):
+    def space_visited(self, color):
         self.visited = True
         self.color = color
-        self.display_value = f
+        if not self.mario_is_here:
+            self.display_value = self.f
 
     def set_costs(self, h, g):
         self.h = h

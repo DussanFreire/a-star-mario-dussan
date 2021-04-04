@@ -9,6 +9,11 @@ class HeuristicFactory:
     pipe_searching_interval = 0
 
     @staticmethod
+    def reset():
+        HeuristicFactory.pipe_position = None
+        HeuristicFactory.pipe_searching_interval = 0
+
+    @staticmethod
     def rect_line_h(successor, state, board):
         if state.father is not None:
             if (state.father.position.col == state.position.col == successor.position.col) or (

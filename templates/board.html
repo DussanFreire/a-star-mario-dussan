@@ -29,6 +29,17 @@
 
     <label for="pipe_row">Total states registered: {{ Total_states }}</label>
     <h3></h3>
+    <div>
+        <form action="{{ url_for('use_rect_line_heuristic')}}" method="post">
+            <button type="submit" style="background-color: yellow">Use rect line heuristic</button>
+        </form>
+        <form action="{{ url_for('use_near_borders_heuristic')}}" method="post">
+            <button type="submit" style="background-color: yellow">Use near borders heuristic</button>
+        </form>
+        <form action="{{ url_for('use_radar_heuristic')}}" method="post">
+            <button type="submit" style="background-color: yellow">Use radar heuristic</button>
+        </form>
+    </div>
 
     <form action="{{ url_for('index')}}" method="get">
         <button type="submit" style="background-color: red; color: white">Back to Menu</button>

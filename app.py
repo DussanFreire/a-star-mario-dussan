@@ -109,6 +109,35 @@ def load_difficult_map():
                            Total_states=board_manager.total_states)
 
 
+@app.route('/rect_line_h', methods=["GET", "POST"])
+def use_rect_line_heuristic():
+    if request.method == "POST":
+        board_manager.change_pipe_finder_method("rect_line_h")
+        return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                               Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                           Total_states=board_manager.total_states)
+
+
+@app.route('/near_borders_h', methods=["GET", "POST"])
+def use_near_borders_heuristic():
+    if request.method == "POST":
+        board_manager.change_pipe_finder_method("near_borders_h")
+        return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                               Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                           Total_states=board_manager.total_states)
+
+
+@app.route('/radar_h', methods=["GET", "POST"])
+def use_radar_heuristic():
+    if request.method == "POST":
+        board_manager.change_pipe_finder_method("radar_h")
+        return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                               Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                           Total_states=board_manager.total_states)
+
 if __name__ == "__main__":
     board_manager = BoardManager()
     app.run(debug=True)

@@ -1,5 +1,6 @@
 from mario_map.board_space.free_space import FreeSpace
 from mario_map.board_space.pipeline import Pipeline
+from mario_map.board_space.wall import Wall
 
 
 class BoardValidations:
@@ -23,6 +24,23 @@ class BoardValidations:
     def is_in_the_board(position, boar_dimensions):
         return BoardValidations._is_a_valid_row(position.row, boar_dimensions) and BoardValidations._is_a_valid_col(
             position.col, boar_dimensions)
+    @staticmethod
+    def is_not_a_valid_element(successor, state):
+        return BoardValidations.is_a_wall(successor) or not BoardValidations.is_a_valid_child(state, successor)
+
+    @staticmethod
+    def is_a_wall(successor):
+        return isinstance(successor, Wall)
+
+    @staticmethod
+    def is_a_pipe(successor):
+        return isinstance(successor, Pipeline)
+
+    @staticmethod
+    def is_a_free_space(successor):
+        return isinstance(successor, FreeSpace)
+
+
 
     @staticmethod
     def is_a_successor(board, state, successor_pos, boar_dimensions):

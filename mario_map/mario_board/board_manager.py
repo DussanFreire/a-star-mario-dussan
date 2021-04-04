@@ -3,17 +3,20 @@ from mario_map.mario_board.position import Position
 from mario_map.mario_board.html_generator import HtmlGenerator
 from mario_map.mario_board.heuristic_factory import HeuristicFactory
 from mario_map.mario_board.board import Board
+from mario_map.mario_board.board_marker import BoardMarker
 
 
 class BoardManager:
     def __init__(self):
         self.board = Board()
         self.total_states = 0
+        self.current_h = HeuristicFactory.rect_line_h
 
     def _find_pipeline(self):
         if self.board.mario is not None:
-            _, self.total_states = PipelineFinder.a_star(self.board, HeuristicFactory.radar_h)
-            PipelineFinder.mark_all_paths(self.board)
+            HeuristicFactory.reset()
+            _, self.total_states = PipelineFinder.a_star(self.board, self.current_h)
+            BoardMarker.mark_all_paths(self.board)
 
     def create_new_board(self, num_rows, num_cols):
         self.board.init_mario_world(num_rows, num_cols)
@@ -37,6 +40,17 @@ class BoardManager:
             self.board.add_pipelines(Position(row_pos - 1, col_pos - 1))
         if name_element == "wall":
             self.board.add_walls(Position(row_pos - 1, col_pos - 1))
+        self.board.reload_board()
+        self.total_states = 0
+        self._find_pipeline()
+
+    def change_pipe_finder_method(self, name_method):
+        if name_method == "rect_line_h":
+            self.current_h = HeuristicFactory.rect_line_h
+        if name_method == "near_borders_h":
+            self.current_h = HeuristicFactory.near_borders_h
+        if name_method == "radar_h":
+            self.current_h = HeuristicFactory.radar_h
         self.board.reload_board()
         self.total_states = 0
         self._find_pipeline()
