@@ -82,7 +82,7 @@ class PipelineFinder:
             BoardMarker.mark_element(state)
             if BoardValidations.is_a_pipe(state):  # goal_state(state):
                 return True, len(closed_states)
-            PipelineFinder.show_board(board.board)
+            # PipelineFinder.show_board(board.board)
             actions = [PipelineFinder.settings.UP, PipelineFinder.settings.DOWN,
                        PipelineFinder.settings.LEFT, PipelineFinder.settings.RIGHT]
             successors_pos = PipelineFinder.agent.transition_function_in_order_to_actions(state, actions)
@@ -91,7 +91,6 @@ class PipelineFinder:
                     continue
                 successor = board.get_board_element(successor_pos)
                 successor.position = successor_pos
-                # la primera condicion es experimental
                 if successor in closed_states or BoardValidations.is_not_a_valid_element(successor, state) or successor.visited or successor.father is not None:
                     continue
                 successor.father = state
@@ -102,13 +101,5 @@ class PipelineFinder:
                 if BoardValidations.is_a_free_space(successor):
                     successor.set_costs(heuristic_function(successor, state, board), state.g + 1)
                     open_states.put((successor.f, number_of_state, successor))
-
-
-                # if successor in open_states:
-                #     if successor.g >= state.g in open_states:
-                #         continue
-
         return False, len(closed_states)
 
-
-# hacer un debug mostrando el mapa

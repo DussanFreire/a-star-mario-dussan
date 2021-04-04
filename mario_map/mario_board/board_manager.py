@@ -4,6 +4,7 @@ from mario_map.mario_board.html_generator import HtmlGenerator
 from mario_map.mario_board.heuristic_factory import HeuristicFactory
 from mario_map.mario_board.board import Board
 from mario_map.mario_board.board_marker import BoardMarker
+import datetime
 
 
 class BoardManager:
@@ -11,17 +12,22 @@ class BoardManager:
         self.board = Board()
         self.total_states = 0
         self.current_h = HeuristicFactory.rect_line_h
+        self.time = 0
 
     def _find_pipeline_using_a_star(self):
         if self.board.mario is not None:
             HeuristicFactory.reset()
+            start = datetime.datetime.now()
             _, self.total_states = PipelineFinder.a_star(self.board, self.current_h)
+            self.time = (datetime.datetime.now() - start).microseconds
             BoardMarker.mark_all_paths(self.board)
 
     def _find_pipeline_using_bfs(self):
         if self.board.mario is not None:
             HeuristicFactory.reset()
+            start = datetime.datetime.now()
             _, self.total_states = PipelineFinder.bfs_mario_perspective(self.board)
+            self.time = (datetime.datetime.now() - start).microseconds
             BoardMarker.mark_all_paths(self.board)
 
     def create_new_board(self, num_rows, num_cols):
@@ -65,7 +71,6 @@ class BoardManager:
         if name_method == "bfs":
             self.current_h = HeuristicFactory.radar_h
             self._find_pipeline_using_bfs()
-
 
 #
 # a = BoardManager()
