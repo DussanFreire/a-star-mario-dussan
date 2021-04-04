@@ -1,6 +1,7 @@
 from mario_map.mario_board.pipeline_finder import PipelineFinder
 from mario_map.mario_board.position import Position
 from mario_map.mario_board.html_generator import HtmlGenerator
+from mario_map.mario_board.heuristic_factory import HeuristicFactory
 from mario_map.mario_board.board import Board
 
 
@@ -11,7 +12,7 @@ class BoardManager:
 
     def _find_pipeline(self):
         if self.board.mario is not None:
-            _, self.total_states = PipelineFinder.a_star(self.board, PipelineFinder.radar_h)
+            _, self.total_states = PipelineFinder.a_star(self.board, HeuristicFactory.radar_h)
             PipelineFinder.mark_all_paths(self.board)
 
     def create_new_board(self, num_rows, num_cols):
@@ -40,7 +41,6 @@ class BoardManager:
         self.total_states = 0
         self._find_pipeline()
 
-
 #
 # a = BoardManager()
 # a.load_easy_board()
@@ -51,5 +51,5 @@ class BoardManager:
 # a.add_element_and_reload("pipeline", 5, 5)
 # print(a.total_states)
 # a.get_html_board()
-a = BoardManager()
-a.load_board("medium")
+# a = BoardManager()
+# a.load_board("medium")
