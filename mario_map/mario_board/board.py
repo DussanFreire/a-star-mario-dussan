@@ -68,6 +68,26 @@ class Board:
                        Position(8, 3))
         self.add_mario(Position(6, 0))
 
+    def create_medium_board(self):
+        self.init_mario_world(20, 40)
+        self.add_pipelines(Position(10, 10))
+        # self.add_walls(Position(3, 1),
+        #                Position(4, 1),
+        #                Position(5, 1),
+        #                Position(6, 1),
+        #                Position(7, 1),
+        #                Position(8, 1),
+        #                Position(0, 3),
+        #                Position(1, 3),
+        #                Position(2, 3),
+        #                Position(3, 3),
+        #                Position(4, 3),
+        #                Position(5, 3),
+        #                Position(6, 3),
+        #                Position(7, 3),
+        #                Position(8, 3))
+        self.add_mario(Position(10, 20))
+
     def _show_board(self):
         for line in self.board:
             for elem in line:

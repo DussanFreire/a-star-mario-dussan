@@ -7,6 +7,14 @@
     <button type="submit" style="background-color: green">Load easy map</button>
 </form>
 
+<form action="{{ url_for('load_medium_map')}}" method="post">
+    <button type="submit" style="background-color: green">Load medium map</button>
+</form>
+
+<form action="{{ url_for('load_difficult_map')}}" method="post">
+    <button type="submit" style="background-color: green">Load difficult map</button>
+</form>
+
 <h3>Create new board 🆕:</h3>
 <form action="{{ url_for('index')}}" method="post">
     <label for="rows">Number of rows:</label>

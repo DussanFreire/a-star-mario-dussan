@@ -11,13 +11,19 @@ class BoardManager:
 
     def _find_pipeline(self):
         if self.board.mario is not None:
-            _, self.total_states = PipelineFinder.a_star(self.board)
+            _, self.total_states = PipelineFinder.a_star(self.board, PipelineFinder.radar_h)
+            PipelineFinder.mark_all_paths(self.board)
 
     def create_new_board(self, num_rows, num_cols):
         self.board.init_mario_world(num_rows, num_cols)
 
-    def load_easy_board(self):
-        self.board.create_easy_board()
+    def load_board(self, difficulty):
+        if difficulty == "easy":
+            self.board.create_easy_board()
+        if difficulty == "medium":
+            self.board.create_medium_board()
+        if difficulty == "difficult":
+            pass
         self._find_pipeline()
 
     def get_html_board(self):
@@ -34,13 +40,16 @@ class BoardManager:
         self.total_states = 0
         self._find_pipeline()
 
+
 #
 # a = BoardManager()
 # a.load_easy_board()
 # print(a.total_states)
 # a.get_html_board()
-a = BoardManager()
-a.create_new_board(5, 5)
-a.add_element_and_reload("pipeline", 5 , 5)
+# a = BoardManager()
+# a.create_new_board(5, 5)
+# a.add_element_and_reload("pipeline", 5, 5)
 # print(a.total_states)
 # a.get_html_board()
+a = BoardManager()
+a.load_board("medium")
