@@ -138,6 +138,17 @@ def use_radar_heuristic():
     return render_template('board.html', Board_sol=board_manager.get_html_board(),
                            Total_states=board_manager.total_states)
 
+
+@app.route('/bfs', methods=["GET", "POST"])
+def use_bfs():
+    if request.method == "POST":
+        board_manager.change_pipe_finder_method("bfs")
+        return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                               Total_states=board_manager.total_states)
+    return render_template('board.html', Board_sol=board_manager.get_html_board(),
+                           Total_states=board_manager.total_states)
+
+
 if __name__ == "__main__":
     board_manager = BoardManager()
     app.run(debug=True)

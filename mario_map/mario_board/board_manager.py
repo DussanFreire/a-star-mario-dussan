@@ -12,10 +12,16 @@ class BoardManager:
         self.total_states = 0
         self.current_h = HeuristicFactory.rect_line_h
 
-    def _find_pipeline(self):
+    def _find_pipeline_using_a_star(self):
         if self.board.mario is not None:
             HeuristicFactory.reset()
             _, self.total_states = PipelineFinder.a_star(self.board, self.current_h)
+            BoardMarker.mark_all_paths(self.board)
+
+    def _find_pipeline_using_bfs(self):
+        if self.board.mario is not None:
+            HeuristicFactory.reset()
+            _, self.total_states = PipelineFinder.bfs_mario_perspective(self.board)
             BoardMarker.mark_all_paths(self.board)
 
     def create_new_board(self, num_rows, num_cols):
@@ -28,7 +34,7 @@ class BoardManager:
             self.board.create_medium_board()
         if difficulty == "difficult":
             pass
-        self._find_pipeline()
+        self._find_pipeline_using_a_star()
 
     def get_html_board(self):
         return HtmlGenerator.create_html_board(self.board)
@@ -42,18 +48,24 @@ class BoardManager:
             self.board.add_walls(Position(row_pos - 1, col_pos - 1))
         self.board.reload_board()
         self.total_states = 0
-        self._find_pipeline()
+        self._find_pipeline_using_a_star()
 
     def change_pipe_finder_method(self, name_method):
-        if name_method == "rect_line_h":
-            self.current_h = HeuristicFactory.rect_line_h
-        if name_method == "near_borders_h":
-            self.current_h = HeuristicFactory.near_borders_h
-        if name_method == "radar_h":
-            self.current_h = HeuristicFactory.radar_h
         self.board.reload_board()
         self.total_states = 0
-        self._find_pipeline()
+        if name_method == "rect_line_h":
+            self.current_h = HeuristicFactory.rect_line_h
+            self._find_pipeline_using_a_star()
+        if name_method == "near_borders_h":
+            self.current_h = HeuristicFactory.near_borders_h
+            self._find_pipeline_using_a_star()
+        if name_method == "radar_h":
+            self.current_h = HeuristicFactory.radar_h
+            self._find_pipeline_using_a_star()
+        if name_method == "bfs":
+            self.current_h = HeuristicFactory.radar_h
+            self._find_pipeline_using_bfs()
+
 
 #
 # a = BoardManager()

@@ -71,7 +71,9 @@ class Board:
     def create_medium_board(self):
         self.init_mario_world(20, 40)
         self.add_pipelines(Position(10, 10))
-        # self.add_walls(Position(3, 1),
+        self.add_pipelines(Position(5, 13))
+
+    # self.add_walls(Position(3, 1),
         #                Position(4, 1),
         #                Position(5, 1),
         #                Position(6, 1),

@@ -2,7 +2,6 @@
 
 {% block center %}
 
-
     <form action="{{ url_for('add_pipeline')}}" method="post">
         <label for="pipe_row">Add Pipeline 🏁:</label>
         <input type="text" id="pipe_row" name="_pipe_row" placeholder="Row" size=2>
@@ -30,9 +29,14 @@
     <label for="pipe_row">Total states registered: {{ Total_states }}</label>
     <h3></h3>
     <div>
+        <form action="{{ url_for('use_bfs')}}" method="post">
+            <button type="submit" style="background-color: orange">Use BFS</button>
+        </form>
+
         <form action="{{ url_for('use_rect_line_heuristic')}}" method="post">
             <button type="submit" style="background-color: yellow">Use rect line heuristic</button>
         </form>
+
         <form action="{{ url_for('use_near_borders_heuristic')}}" method="post">
             <button type="submit" style="background-color: yellow">Use near borders heuristic</button>
         </form>

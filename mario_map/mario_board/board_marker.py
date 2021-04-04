@@ -25,6 +25,7 @@ class BoardMarker:
         while pipe.father is not None:
             pipe.color = BoardMarker.settings.PATH_COLOR
             pipe = pipe.father
+        pipe.color = BoardMarker.settings.PATH_COLOR
 
     @staticmethod
     def _get_pipelines_visited(board):
