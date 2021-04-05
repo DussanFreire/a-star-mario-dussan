@@ -10,8 +10,13 @@ import datetime
 class BoardManager:
     def __init__(self):
         self.board = Board()
-        self.total_states = 0
         self.current_h = HeuristicFactory.rect_line_h
+        self.total_states = 0
+        self.deep = 0
+        self.branch_factor = 0
+
+    def _init_calculable_prop(self):
+        self.total_states = 0
         self.deep = 0
         self.branch_factor = 0
 
@@ -22,7 +27,7 @@ class BoardManager:
             _, self.total_states, self.deep = PipelineFinder.a_star(self.board, self.current_h)
             self.time = (datetime.datetime.now() - start).microseconds
             BoardMarker.mark_all_paths(self.board)
-            self.calculate_branching_factor()
+            self._calculate_branching_factor()
 
     def _find_pipeline_using_bfs(self):
         if self.board.mario is not None:
@@ -31,15 +36,13 @@ class BoardManager:
             _, self.total_states, self.deep = PipelineFinder.bfs_mario_perspective(self.board)
             self.time = (datetime.datetime.now() - start).microseconds
             BoardMarker.mark_all_paths(self.board)
-            self.calculate_branching_factor()
+            self._calculate_branching_factor()
 
     def create_new_board(self, num_rows, num_cols):
         self.board.init_mario_world(num_rows, num_cols)
 
     def load_board(self, difficulty):
-        self.total_states = 0
-        self.branch_factor = 0
-        self.deep = 0
+        self._init_calculable_prop()
         if difficulty == "easy":
             self.board.create_easy_board()
         if difficulty == "medium":
@@ -59,16 +62,12 @@ class BoardManager:
         if name_element == "wall":
             self.board.add_walls(Position(row_pos - 1, col_pos - 1))
         self.board.reload_board()
-        self.total_states = 0
-        self.branch_factor = 0
-        self.deep = 0
+        self._init_calculable_prop()
         self._find_pipeline_using_a_star()
 
     def change_pipe_finder_method(self, name_method):
         self.board.reload_board()
-        self.total_states = 0
-        self.branch_factor = 0
-        self.deep = 0
+        self._init_calculable_prop()
         if name_method == "rect_line_h":
             self.current_h = HeuristicFactory.rect_line_h
             self._find_pipeline_using_a_star()
@@ -81,25 +80,11 @@ class BoardManager:
         if name_method == "bfs":
             self._find_pipeline_using_bfs()
 
-
-    def calculate_branching_factor(self):
+    def _calculate_branching_factor(self):
         aux_deep = self.deep
         exp = 0
-        while aux_deep>0:
+        while aux_deep > 0:
             exp += aux_deep
             aux_deep -= 1
-        self.branch_factor = (self.total_states + 2) **(1/exp)
+        self.branch_factor = (self.total_states + 2) ** (1/exp)
 
-#
-# a = BoardManager()
-# a.load_easy_board()
-# print(a.total_states)
-# a.get_html_board()
-# a = BoardManager()
-# a.create_new_board(5, 5)
-# a.add_element_and_reload("pipeline", 5, 5)
-# print(a.total_states)
-# a.get_html_board()
-# a = BoardManager()
-# a.load_board("easy")
-# a.change_pipe_finder_method("radar_h")

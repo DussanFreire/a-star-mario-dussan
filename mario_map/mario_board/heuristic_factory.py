@@ -9,11 +9,13 @@ class HeuristicFactory:
 
     @staticmethod
     def reset():
+        # reset pipe property's used in radar_h
         HeuristicFactory.pipe_position = None
         HeuristicFactory.pipe_searching_interval = 0
 
     @staticmethod
     def rect_line_h(successor, state, board):
+        # rect line based on the board dimensions
         if state.father is not None:
             if (state.father.position.col == state.position.col == successor.position.col) or (
                     state.father.position.row == state.position.row == successor.position.row):
@@ -22,6 +24,7 @@ class HeuristicFactory:
 
     @staticmethod
     def near_borders_h(successor, state, board):
+        # near borders based on the board dimensions
         if successor.position.col == 0 or successor.position.col == board.dimensions.num_cols - 2:
             return (board.dimensions.num_cols * board.dimensions.num_rows) + 1
         if successor.position.row == 0 or successor.position.row == board.dimensions.num_rows - 2:
@@ -31,6 +34,7 @@ class HeuristicFactory:
 
     @staticmethod
     def radar_h(successor, state, board):
+        # radar based on the board dimensions and the pipe position
         if HeuristicFactory.pipe_position is None or state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
             HeuristicFactory.pipe_position = HeuristicFactory._get_positions_of_closest_pipe(state.position, board)
             if HeuristicFactory.pipe_position is None:
@@ -112,6 +116,7 @@ class HeuristicFactory:
 
     @staticmethod
     def _classified_pipe(pipe_position, state_position):
+        # classified pipe based in it's position in comparison of the state position
         if pipe_position.col > state_position.col and pipe_position.row > state_position.row:
             return "down_right"
         if pipe_position.col < state_position.col and pipe_position.row < state_position.row:
@@ -131,8 +136,10 @@ class HeuristicFactory:
 
     @staticmethod
     def _get_positions_of_closest_pipe(state_position, board):
+        # find the closest pipe
         radar_size = 0
         while radar_size < board.dimensions.num_rows or radar_size < board.dimensions.num_cols:
+            # set range for the quick search
             radar_size += 1
             ri = state_position.row - radar_size
             rf = state_position.row + radar_size

@@ -11,6 +11,7 @@ class PipelineFinder:
 
     @staticmethod
     def show_board(board):
+        # used to debug
         print("****************************************************************************************************")
         for line in board:
             for elem in line:
@@ -33,10 +34,9 @@ class PipelineFinder:
             closed.append(state)
             num_states += 1
             # PipelineFinder.show_board(board.board)
-            # Goal Test: return pipe's position
             if BoardValidations.is_a_pipe(state):
                 state.space_visited(PipelineFinder.settings.VISITED_COLOR)
-                return True, num_states,d
+                return True, num_states, d
 
             # Mark state as visited
             if not state.mario_is_here:
@@ -50,6 +50,7 @@ class PipelineFinder:
             actions = [PipelineFinder.settings.UP, PipelineFinder.settings.DOWN, PipelineFinder.settings.LEFT, PipelineFinder.settings.RIGHT]
             successors_pos = PipelineFinder.agent.transition_function_in_order_to_actions(state, actions)
             successors_pos = PipelineFinder.discard_successors_marios_perspective(board, successors_pos)
+            # increment deep
             if successors_pos:
                 d += 1
             # Put the successors into the queue
@@ -94,10 +95,11 @@ class PipelineFinder:
             actions = [PipelineFinder.settings.UP, PipelineFinder.settings.DOWN,
                        PipelineFinder.settings.LEFT, PipelineFinder.settings.RIGHT]
             successors_pos = PipelineFinder.agent.transition_function_in_order_to_actions(state, actions)
+            # increment deep
             if successors_pos:
                 d += 1
             for successor_pos in successors_pos:
-
+                # filter
                 if not BoardValidations.is_in_the_board(successor_pos, board.dimensions):
                     continue
                 successor = board.get_board_element(successor_pos)
@@ -105,7 +107,9 @@ class PipelineFinder:
                 if successor in closed_states or BoardValidations.is_not_a_valid_element(successor, state) or successor.visited or successor.father is not None:
                     continue
                 successor.father = state
+                # increment number of state, this would be an id for the states in the queue.
                 number_of_state += 1
+                # Put the successors into the queue
                 if BoardValidations.is_a_pipe(successor):
                     open_states.put((0, number_of_state, successor, d))
                     break

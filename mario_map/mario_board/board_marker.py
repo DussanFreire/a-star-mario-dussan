@@ -7,6 +7,7 @@ class BoardMarker:
 
     @staticmethod
     def mark_element(state):
+        # mark a single element
         if isinstance(state, Pipeline) or state.mario_is_here:
             state.space_visited(BoardMarker.settings.PATH_COLOR)
         else:
@@ -22,6 +23,7 @@ class BoardMarker:
 
     @staticmethod
     def _mark_one_path(pipe):
+        # mark paths from the pipe
         while pipe.father is not None:
             pipe.color = BoardMarker.settings.PATH_COLOR
             pipe = pipe.father
@@ -29,6 +31,7 @@ class BoardMarker:
 
     @staticmethod
     def _get_pipelines_visited(board):
+        # get pipelines that were found
         pipelines_found = []
         for row in range(0, board.dimensions.num_rows):
             for col in range(0, board.dimensions.num_cols):
