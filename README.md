@@ -12,10 +12,10 @@ _Is a basic web application where you can build your own board which includes pi
 branch factor and calculate the number of states. 
 
 This web application has two basic interfaces:
-1. Menú:  <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/menu.jpg" /></div>
+1. Menú:  
 2. Board:
 * You can load maps with different difficulties 
-* You can create your own board with the dimensions that you want and play with the application options 😉: <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/created_map.jpg" /></div>
+* You can create your own board with the dimensions that you want and play with the application options 😉: 
 ## Agent:
 * **Formulation of the objective:** Find the closest pipeline using BFS and A* 
 * **Problem formulation:**
@@ -34,10 +34,11 @@ This web application has two basic interfaces:
         * Find a pipeline
 
 ## Heuristic functions used:
-* Rect line: if the successor's grandfather, successor's father and successor share the same column or row, then the heuristic is lower
+* The heuristics used are based on the dimensions of the board. We could say that this heuristics are admissible because they are based on the board dimensions. However, perhaps with more experiment we could have better heuristics 
+* Rect line: if the successor's grandfather, successor father and successor share the same column or row, then the heuristic is lower
 * Near borders 🧱: if the successor is in the border of the boar, then the heuristic is lower
 * Radar 🔍: 
-    * A fast search is made from marios position until a pipe it's found, in other words, the context it's found(this sear is only made at the beginning or when F cost is high)
+    * A fast search is made from mario's position until a pipe it's found, in other words, the context it's found(this search is only made at the beginning or when F cost is high)
     * Once we know the position of the closest pipe, that position is classified that position as:
         * right: In the same row, at right
         * left: In the same row, at left
@@ -53,10 +54,10 @@ This web application has two basic interfaces:
 
 ## Observations 👀:
 * After several experiments, we got the following conclusions:
-  * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that take more time to find the solution. This heuristic has a much better performance when there is not obstacles 
+  * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that takes more time to find the solution(In comparisson of the other heuristics). This heuristic has a much better performance when there is not obstacles 
   * A*, using Rect line and Near borders Heuristic, have almost the same results in all the cases.
   * BFS, takes more time and also more states in almost all the cases (more states are expanded and more time is taken )
-  * The difference between A* and BFS are less, when the map has mane obstacles 
+  * The difference between A* and BFS are less, when the map has mane obstacles
     
         
     
