@@ -49,6 +49,11 @@ class Board:
         return self.board[position.row][position.col]
 
     def create_easy_board(self):
+        self.init_mario_world(20, 40)
+        self.add_pipelines(Position(10, 35))
+        self.add_mario(Position(10, 5))
+
+    def create_medium_board(self):
         self.init_mario_world(10, 10)
         self.add_pipelines(Position(2, 9))
         self.add_walls(Position(3, 1),
@@ -68,7 +73,7 @@ class Board:
                        Position(8, 3))
         self.add_mario(Position(6, 0))
 
-    def create_medium_board(self):
+    def create_difficult_board(self):
         self.init_mario_world(20, 40)
         self.add_pipelines(Position(0, 1))
         self.add_pipelines(Position(12, 26))

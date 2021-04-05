@@ -39,7 +39,7 @@ class BoardManager:
         if difficulty == "medium":
             self.board.create_medium_board()
         if difficulty == "difficult":
-            pass
+            self.board.create_difficult_board()
         self._find_pipeline_using_a_star()
 
     def get_html_board(self):
@@ -81,6 +81,6 @@ class BoardManager:
 # a.add_element_and_reload("pipeline", 5, 5)
 # print(a.total_states)
 # a.get_html_board()
-# a = BoardManager()
-# a.load_board("medium")
-# a.change_pipe_finder_method("bfs")
+a = BoardManager()
+a.load_board("easy")
+a.change_pipe_finder_method("radar_h")
