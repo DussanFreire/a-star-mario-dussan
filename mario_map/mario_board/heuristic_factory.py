@@ -2,6 +2,7 @@ from mario_map.mario_board.position import Position
 from mario_map.mario_board.board_validations import BoardValidations
 from mario_map.board_space.pipeline import Pipeline
 
+
 class HeuristicFactory:
     pipe_position = None
     pipe_searching_interval = 0
@@ -38,57 +39,73 @@ class HeuristicFactory:
         if pipe_quadrant == "down_right":
             if successor.position.col == state.position.col + 1 or successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return 2
         if pipe_quadrant == "upper_left":
             if successor.position.col == state.position.col - 1 or successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return 2
         if pipe_quadrant == "upper_right":
             if successor.position.col == state.position.col + 1 or successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return 2
         if pipe_quadrant == "down_left":
             if successor.position.col == state.position.col - 1 or successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return 2
         if pipe_quadrant == "down":
             if successor.position.col == state.position.col and successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return 1
         if pipe_quadrant == "up":
             if successor.position.col == state.position.col and successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return 1
         if pipe_quadrant == "left":
             if successor.position.col == state.position.col - 1 and successor.position.row == state.position.row:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return 1
         if pipe_quadrant == "right":
             if successor.position.col == state.position.col + 1 and successor.position.row == state.position.row:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(state.position.row - HeuristicFactory.pipe_position.row) >= abs(
-                        state.position.col - HeuristicFactory.pipe_position.col) else abs(state.position.col - HeuristicFactory.pipe_position.col)
+                    perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
+                        state.position.row - HeuristicFactory.pipe_position.row) >= abs(
+                        state.position.col - HeuristicFactory.pipe_position.col) else abs(
+                        state.position.col - HeuristicFactory.pipe_position.col)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return 1
         return 8
@@ -122,19 +139,21 @@ class HeuristicFactory:
             ci = state_position.col - radar_size
             cf = state_position.col + radar_size
             aux = state_position.row
-            ctt= -1
-            for c in range(ci, cf+1):
+            ctt = -1
+            for c in range(ci, cf + 1):
                 if aux == ri:
                     ctt = 1
-                if BoardValidations.is_in_the_board(Position(aux, c), board.dimensions) and isinstance(board.board[aux][c], Pipeline):
+                if BoardValidations.is_in_the_board(Position(aux, c), board.dimensions) and isinstance(
+                        board.board[aux][c], Pipeline):
                     return Position(aux, c)
                 aux += ctt
             aux = state_position.row
             ctt = 1
-            for c in range(ci, cf+1):
+            for c in range(ci, cf + 1):
                 if aux == rf:
                     ctt = -1
-                if BoardValidations.is_in_the_board(Position(aux, c), board.dimensions) and isinstance(board.board[aux][c], Pipeline):
+                if BoardValidations.is_in_the_board(Position(aux, c), board.dimensions) and isinstance(
+                        board.board[aux][c], Pipeline):
                     return Position(aux, c)
                 aux += ctt
         return None

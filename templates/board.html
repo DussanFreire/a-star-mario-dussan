@@ -28,6 +28,8 @@
 
     <label for="pipe_row">Total states registered: {{ Total_states }}</label>
     <label for="pipe_row">Time registered: {{ Time }} [microseconds]</label>
+    <label for="pipe_row">Deep registered: {{ Deep }} </label>
+    <label for="pipe_row">Branch Factor: {{ Branch_Factor }} </label>
     <h3></h3>
     <div>
         <form action="{{ url_for('use_bfs')}}" method="post">
