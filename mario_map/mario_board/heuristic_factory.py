@@ -22,9 +22,9 @@ class HeuristicFactory:
 
     @staticmethod
     def near_borders_h(successor, state, board):
-        if successor.position.col == 0 or successor.position.col == board.dimensions.num_cols - 1:
+        if successor.position.col == 0 or successor.position.col == board.dimensions.num_cols - 2:
             return 1
-        if successor.position.row == 0 or successor.position.row == board.dimensions.num_rows - 1:
+        if successor.position.row == 0 or successor.position.row == board.dimensions.num_rows - 2:
             return 1
         else:
             return 2
@@ -35,7 +35,7 @@ class HeuristicFactory:
             HeuristicFactory.pipe_position = HeuristicFactory._get_positions_of_closest_pipe(state.position, board)
             if HeuristicFactory.pipe_position is None:
                 return 1
-        pipe_quadrant = HeuristicFactory._find_quadrant(HeuristicFactory.pipe_position, state.position)
+        pipe_quadrant = HeuristicFactory._classified_pipe(HeuristicFactory.pipe_position, state.position)
         if pipe_quadrant == "down_right":
             if successor.position.col == state.position.col + 1 or successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
@@ -111,7 +111,7 @@ class HeuristicFactory:
         return 8
 
     @staticmethod
-    def _find_quadrant(pipe_position, state_position):
+    def _classified_pipe(pipe_position, state_position):
         if pipe_position.col > state_position.col and pipe_position.row > state_position.row:
             return "down_right"
         if pipe_position.col < state_position.col and pipe_position.row < state_position.row:

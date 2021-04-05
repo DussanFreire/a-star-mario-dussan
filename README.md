@@ -47,36 +47,30 @@ This web application has two basic interfaces:
   In the other hand, when a bfs algorithm is used for the same problem the program only goes through 121 states. <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/bfs in a 11x11 board.jpg" /></div>
   That's the main reason why we rather use bfs for this program.
 
-## Algorithms:
-* **Algorithm used to mark all the distances:**
-    * Steps used:
-        * All the pipelines positions were selected and saved in the queue from the bfs algorithm
-        * An empty list was declared to save all the states or successors
-        * The loop begun
-            * One position from the queue was taken, and the agent created 4 possible successors for that position(each
-              successor comes from the chosen actions)
-            * The possible successors that weren't able to complete the following conditions were removed from the list of
-              possible successors 🚫:
-                * The position must be inside the board
-                * The position must be a free space
-                * The successor can't be the parent from the current state
-                * A free space that has already been marked can't be a successor
-            * The distance was marked, on the successors, in the following way:
-                * if the state is the root, then the successor distance marked in the free space is 1
-                * if the state is also a free space, then the successor distance is the state distance + 1
-            * The current state was added to the "states list"
-            * All the successors were added to the queue
-        * At the end, of the process, the length from the states list was returned
-* **Algorithm used to mark and select the best path from Mario's Position ✅:**
-    * Steps used:
-        * The process begun finding the initial step from Mario's position
-            * The agent created 4 possible successors(each successor comes from the chosen actions) from Mario's position
-            * If one of the posible positions was a pipeline, the position was marked, and the process ended
-            * If there wasn't a pipeline around Mario, then the initial state would be one of the possible options which follows
-              the next conditions:
-                * Must be a free space
-                * Its distance must be higher than 0
-                * It's distance must ve the lower from the posible successors
-                * If there is only free spaces with a distance 0 marked, then we can't select the initial state because Mario is trapped
-        * The position of the initial step will be the current position from the first cicle of the next step
-        * if the pipeline wasn't around Mario, then a similar process was used and repeated until the pipeline was found 
+## Heuristic functions used:
+* Rect line: if the successor's grandfather, successor's father and successor share the same column or row, then the heuristic is lower
+* Near borders 🧱: if the successor is in the border of the boar, then the heuristic is lower
+* Radar 🔍: 
+    * A fast search is made from marios position until a pipe it's found, in other words, the context it's found(this sear is only made at the beginning or when F cost is high)
+    * Once we know the position of the closest pipe, that position is classified that position as:
+        * right: In the same row, at right
+        * left: In the same row, at left
+        * up: In the same col, at up
+        * down: In the same col, at down
+        * upper_right: upper_right quadrant
+        * upper_left: upper_left quadrant
+        * down_right: down_right quadrant
+        * down_left: down_left quadrant
+    * Then a parse is made in order to get a cost from each classification
+        * Lower heuristic: right, left, up and down
+        * Higher heuristic: upper_right, upper_left, down_right and down_left
+
+## Observations 👀:
+* After several experiments, we got the following conclusions:
+  * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that take more time to find the solution 
+  * A*, using Rect line and Near borders Heuristic, have almost the same results in all the cases.
+  * BFS, takes more time and also more states in almost all the cases
+    
+        
+    
+    
