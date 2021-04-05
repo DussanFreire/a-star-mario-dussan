@@ -14,13 +14,12 @@ branch factor and calculate the number of states.
 This web application has two basic interfaces:
 1. Menú:  <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/menu.jpg" /></div>
 2. Board:
-* You can load a default board and have a fast view of the application:<div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/default_board.jpg" /></div>
+* You can load maps with different difficulties 
 * You can create your own board with the dimensions that you want and play with the application options 😉: <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/created_map.jpg" /></div>
-* Don't trap Mario 😂:<div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/mario_trapped.jpg" /></div>
 ## Agent:
-* **Formulation of the objective:** The objective is to mark the shortest distance from a pipeline in all the free spaces of the board, and find the shortest path from Mario's position
+* **Formulation of the objective:** Find the closest pipeline using BFS and A* 
 * **Problem formulation:**
-    * **Initial state:** The initial state is a board without any distances marked
+    * **Initial state:** The initial state is a board without any value marked
         * **Description of the actions:**
             * UP = Move up from the current position ⬆
             * DOWN = Move down from the current position ⬇
@@ -32,20 +31,7 @@ This web application has two basic interfaces:
         * LEFT: move("left", state.row, state.col) -> state: (row - 1, col)
         * RIGHT: move("right", state.row, state.col) -> state: (row - 1, col)
     * **Target test:**
-        * In this case we don't have a target because this prophecy is working with a normal agent. We could
-          say that the target test would be to mark all the free spaces with the correct distance to the closest pipeline
-    * **Route cost:**
-        * The route cost for each action is 1
-    * **State space:** :<div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/states_bfs.jpg" /></div>
-* **Search:**
-  The search algorithm BFS was used in this project, even though it uses more memory, its quantity of states is much
-  lower than the quantity of states used in DFS. For example in the following image we can see how the dfs algorithm
-  would mark all the free spaces on the board: <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/states using dfs.jpg" /></div>
-  This quantity doesn't seam to high when we compare it with the same example using BFS: <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/states_bfs.jpg" /></div>
-  But when the algorithm dfs is used on a 11x11 board with a pipeline at the
-  position (6, 6), the program goes through 1043 states. <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/dfs in a 11x11 board.jpg" /></div>
-  In the other hand, when a bfs algorithm is used for the same problem the program only goes through 121 states. <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/bfs in a 11x11 board.jpg" /></div>
-  That's the main reason why we rather use bfs for this program.
+        * Find a pipeline
 
 ## Heuristic functions used:
 * Rect line: if the successor's grandfather, successor's father and successor share the same column or row, then the heuristic is lower
@@ -67,9 +53,10 @@ This web application has two basic interfaces:
 
 ## Observations 👀:
 * After several experiments, we got the following conclusions:
-  * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that take more time to find the solution 
+  * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that take more time to find the solution. This heuristic has a much better performance when there is not obstacles 
   * A*, using Rect line and Near borders Heuristic, have almost the same results in all the cases.
   * BFS, takes more time and also more states in almost all the cases
+  * The difference between A* and BFS are less, when the map has mane obstacles 
     
         
     
