@@ -56,7 +56,7 @@ This web application has two basic interfaces:
 * After several experiments, we got the following conclusions:
   * A*, using Radar heuristic, is the one that opens fewer states. However, the A* function is also the one that takes more time to find the solution(In comparisson of the other heuristics). This heuristic has a much better performance when there is not obstacles 
   * A*, using Rect line and Near borders Heuristic, have almost the same results in all the cases.
-  * BFS, takes more time and also more states in almost all the cases (more states are expanded and more time is taken )
+  * BFS, takes less time and more states in almost all the cases (more states are expanded)
   * The difference between A* and BFS are less, when the map has mane obstacles
     
         

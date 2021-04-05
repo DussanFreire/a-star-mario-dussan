@@ -43,55 +43,55 @@ class HeuristicFactory:
         if pipe_quadrant == "down_right":
             if successor.position.col == state.position.col + 1 or successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 2
         if pipe_quadrant == "upper_left":
             if successor.position.col == state.position.col - 1 or successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 2
         if pipe_quadrant == "upper_right":
             if successor.position.col == state.position.col + 1 or successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 2
         if pipe_quadrant == "down_left":
             if successor.position.col == state.position.col - 1 or successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 2 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 2
         if pipe_quadrant == "down":
             if successor.position.col == state.position.col and successor.position.row == state.position.row + 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 1
         if pipe_quadrant == "up":
             if successor.position.col == state.position.col and successor.position.row == state.position.row - 1:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 1
         if pipe_quadrant == "left":
             if successor.position.col == state.position.col - 1 and successor.position.row == state.position.row:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 1
         if pipe_quadrant == "right":
             if successor.position.col == state.position.col + 1 and successor.position.row == state.position.row:
                 if state.f == 0 or state.f == HeuristicFactory.pipe_searching_interval:
-                    perception_scope = HeuristicFactory.get_perception_scope(state)
+                    perception_scope = HeuristicFactory._get_perception_scope(state)
                     HeuristicFactory.pipe_searching_interval = perception_scope + 1 + state.f
                 return (board.dimensions.num_cols * board.dimensions.num_rows) + 1
         return (board.dimensions.num_cols * board.dimensions.num_rows) + 8
 
     @staticmethod
-    def get_perception_scope(state):
+    def _get_perception_scope(state):
         perception_scope = abs(state.position.row - HeuristicFactory.pipe_position.row) if abs(
             state.position.row - HeuristicFactory.pipe_position.row) >= abs(
             state.position.col - HeuristicFactory.pipe_position.col) else abs(
