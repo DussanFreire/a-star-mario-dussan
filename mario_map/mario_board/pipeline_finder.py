@@ -22,11 +22,16 @@ class PipelineFinder:
     def bfs_mario_perspective(board):
         open = queue.SimpleQueue()
         num_states = 0
+        closed =[]
         # start bfs from Mario:
         open.put(board.mario)
         while open.qsize() != 0:
             state = open.get()
+            if state in closed:
+                continue
+            closed.append(state)
             num_states += 1
+            # PipelineFinder.show_board(board.board)
             # Goal Test: return pipe's position
             if BoardValidations.is_a_pipe(state):
                 state.space_visited(PipelineFinder.settings.VISITED_COLOR)

@@ -69,7 +69,6 @@ class BoardManager:
             self.current_h = HeuristicFactory.radar_h
             self._find_pipeline_using_a_star()
         if name_method == "bfs":
-            self.current_h = HeuristicFactory.radar_h
             self._find_pipeline_using_bfs()
 
 #
@@ -84,3 +83,4 @@ class BoardManager:
 # a.get_html_board()
 # a = BoardManager()
 # a.load_board("medium")
+# a.change_pipe_finder_method("bfs")
