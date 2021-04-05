@@ -1,7 +1,6 @@
 from mario_map.mario_board.position import Position
 from mario_map.mario_board.board_validations import BoardValidations
 from mario_map.board_space.pipeline import Pipeline
-from math import floor
 
 class HeuristicFactory:
     pipe_position = None
