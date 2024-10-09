@@ -1,4 +1,4 @@
-# Help Mario 👨⚠‼ Save the princess 👸
+# BFS vs A*, Help Mario 👨⚠‼ Save the princess 👸
 # Prerequisites:
 * Conda 4.9.2
 * JetBrains IDE
@@ -8,7 +8,7 @@
 * Write the following command: "python app.py"
 * Click on the URL or open your localhost <div style="text-align:center"><img src="https://github.com/joangerard/mario-map-dussan/blob/main/screenshots/instruccions.jpg" /></div>
 # Project Description
-_Is a basic web application where you can build your own board which includes pipelines 🏁, walls 🟥 and of course Mario 👨! The main objective of this application is to find the path to the closest pipe and mark the path using BFS and A *, make some comparisons, find the effective effective
+This is a basic web application where you can build your own board which includes pipelines 🏁, walls 🟥 and of course Mario 👨! The main objective of this application is to find the path to the closest pipe and mark the path using BFS and A *, make some comparisons, find the effective effective
 branch factor and calculate the number of states. 
 
 This web application has two basic interfaces:
